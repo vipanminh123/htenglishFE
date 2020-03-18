@@ -24,24 +24,20 @@ $(document).on('click', "#button-check-result-word", function() {
 	var count_all = 0;
 	var count_true = 0;
 	$("#button-show-result").removeClass("hidden");
-	$(".quest-item").each(function() {
+	$(".input-content").each(function() {
 		count_all++;
-		$(this).find('input[type="radio"]').each(function() {
-			var result = $(this).parents(".quest-item").find(".input-result").val();
-			if( $(this).is(':checked') && $(this).val() == result ) {
-				check = true;
-			}
-			
-		});
-		if(check) {
+		var result = $(this).parent().find(".input-result").val().toLowerCase();
+		result = result.split(",");
+		let val = $(this).val().toLowerCase();
+		if ( val && result.indexOf(val) !== -1 ) {
 			$(this).parents(".form-group").find(".hide-check-true").removeClass('hidden');
 			count_true++;
-			check = false;
 		}
 		else {
 			$(this).parents(".form-group").find(".hide-check-false").removeClass('hidden');
 		}
 	});
+	$("#show-result-total").html(count_true+' / '+count_all);
 	$("#show-result-total").html(count_true+' / '+count_all);
 })
 

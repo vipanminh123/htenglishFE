@@ -60,7 +60,7 @@ class PhraseList extends Component {
 						<TextField
 							id="searchPhrase"
 							type="text"
-							placeholder="Filter By Name"
+							placeholder="Filter By English"
 							value={filterText}
 							onChange={this.onFilter}
 						/>

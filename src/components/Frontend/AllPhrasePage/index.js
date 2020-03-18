@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import * as phraseActions from '../../../redux/actions/phrase';
 import DataTable from 'react-data-table-component';
 import { TextField, conditionalRowStyles } from '../../../commons/tableStyles';
@@ -22,10 +23,7 @@ class AllPhrasePage extends Component {
 		const { token, history, phraseActionCreators } = this.props;
 		const { fetchPhraseOutStorage } = phraseActionCreators;
 		if (token) {
-			fetchPhraseOutStorage({
-				token,
-				filter: 'all',
-			});
+			fetchPhraseOutStorage(token);
 		} else {
 			history.push('/login');
 		}
@@ -38,14 +36,6 @@ class AllPhrasePage extends Component {
 		});
 	};
 
-	filterHandleSubmit = e => {
-		e.preventDefault();
-	};
-
-	handleSubmit = e => {
-		e.preventDefault();
-	};
-
 	selectOnChange = e => {
 		let name = e.target.name;
 		let value = e.target.value;
@@ -54,20 +44,16 @@ class AllPhrasePage extends Component {
 		});
 	};
 
-	checkboxChange = e => {
-		e.preventDefault();
-	};
-
-	addToStorage = e => {
-		e.preventDefault();
+	addToStorage = id => {
+		const { addPhraseToStorage } = this.props.phraseActionCreators;
+		const { token } = this.props;
+		addPhraseToStorage({ token, id });
 	};
 
 	render() {
 		let { phraseOutStorage, phraseCategory } = this.props;
 
 		let { filterText, filterCat } = this.state;
-		// console.log(phraseOutStorage);
-		// console.log(phraseCategory);
 
 		let filteredItems = [];
 
@@ -118,7 +104,7 @@ class AllPhrasePage extends Component {
 						className="btn btn-primary dim"
 						type="button"
 						style={{ marginTop: '10px' }}
-						onClick={this.addToStorage}
+						onClick={() => this.addToStorage(row.id)}
 					>
 						<i className="fa fa-floppy-o"></i> Add
 					</button>
@@ -142,10 +128,10 @@ class AllPhrasePage extends Component {
 				<div className="col-sm-12 col-md-9">
 					<div className="ibox float-e-margins">
 						<div className="ibox-title">
-							<h1 className="text-center">100 English Lessons</h1>
+							<h1 className="text-center">1000 Most Common English Phrases</h1>
 						</div>
 						<div className="ibox-content">
-							<form onSubmit={this.filterHandleSubmit}>
+							<form>
 								<div className="form-group">
 									<label className="col-sm-2 control-label">Filter by:</label>
 									<div className="col-sm-10 m-b">
@@ -160,7 +146,7 @@ class AllPhrasePage extends Component {
 												{catOption}
 											</select>
 											<span className="input-group-btn">
-												<button type="submit" className="btn btn-primary">
+												<button type="button" className="btn btn-primary">
 													Go!
 												</button>
 											</span>
@@ -168,7 +154,7 @@ class AllPhrasePage extends Component {
 									</div>
 								</div>
 							</form>
-							<form className="form-horizontal" onSubmit={this.handleSubmit}>
+							<form className="form-horizontal">
 								<DataTable
 									columns={columns}
 									data={filteredItems}
@@ -181,7 +167,7 @@ class AllPhrasePage extends Component {
 											<TextField
 												id="searchPhrase"
 												type="text"
-												placeholder="Filter By Name"
+												placeholder="Filter By English"
 												value={filterText}
 												onChange={this.onFilterText}
 											/>
@@ -191,11 +177,11 @@ class AllPhrasePage extends Component {
 								/>
 								<div className="form-group">
 									<div className="col-sm-4 col-sm-offset-4 text-right">
-										<a href="/phrases/storage">
+										<Link to="/phrases/storage">
 											<button className="btn btn-success dim" type="button">
 												Go To storage <i className="fa fa-arrow-right"></i>
 											</button>
-										</a>
+										</Link>
 									</div>
 								</div>
 							</form>
@@ -209,15 +195,17 @@ class AllPhrasePage extends Component {
 }
 
 AllPhrasePage.propTypes = {
-	filter: PropTypes.string,
 	phraseOutStorage: PropTypes.array,
 	phraseCategory: PropTypes.array,
 	token: PropTypes.string,
+	phraseActionCreators: PropTypes.shape({
+		addPhraseToStorage: PropTypes.func,
+		fetchPhraseOutStorage: PropTypes.func,
+	}),
 };
 
 const mapStateToProps = state => {
 	return {
-		filter: state.phrases.filter,
 		phraseOutStorage: state.phrases.phraseOutStorage,
 		phraseCategory: state.phrases.phraseCategory,
 		token: state.user.token,

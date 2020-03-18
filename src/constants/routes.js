@@ -7,8 +7,12 @@ import RegisterPage from '../components/Frontend/RegisterPage';
 import GuidePage from '../components/Frontend/GuidePage';
 import ProfilePage from '../components/Frontend/ProfilePage';
 import PhraseStorage from '../components/Frontend/PhraseStorage';
+import PhraseEngToViet from '../components/Frontend/LearnPhrase/EngToViet';
+import PhraseVietToEng from '../components/Frontend/LearnPhrase/VietToEng';
 import WordStorage from '../components/Frontend/WordStorage';
 import LearnLesson from '../components/Frontend/LearnLesson';
+import WordEngToViet from '../components/Frontend/LearnWord/EngToViet';
+import WordVietToEng from '../components/Frontend/LearnWord/VietToEng';
 
 export const ROUTES = [
 	{
@@ -75,25 +79,25 @@ export const ROUTES = [
 		path: '/phrases/learn/engtoviet',
 		name: 'Phrases - Eng to Viet',
 		exact: false,
-		component: WordStorage,
+		component: PhraseEngToViet,
 	},
 	{
 		path: '/phrases/learn/viettoeng',
 		name: 'Phrases - Viet to Eng',
 		exact: false,
-		component: WordStorage,
+		component: PhraseVietToEng,
 	},
 	{
 		path: '/words/learn/engtoviet',
 		name: 'Words - Eng to Viet',
 		exact: false,
-		component: WordStorage,
+		component: WordEngToViet,
 	},
 	{
 		path: '/words/learn/viettoeng',
 		name: 'Words - Viet to Eng',
 		exact: false,
-		component: WordStorage,
+		component: WordVietToEng,
 	},
 	{
 		path: '/lessons/learn',

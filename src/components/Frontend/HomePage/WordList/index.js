@@ -60,7 +60,7 @@ class WordList extends Component {
 						<TextField
 							id="searchWord"
 							type="text"
-							placeholder="Filter By Name"
+							placeholder="Filter By English"
 							value={filterText}
 							onChange={this.onFilter}
 						/>
